@@ -29,6 +29,6 @@ jobs:
         with:
           command: test
       - run: |
-          pip install .
+          pip install cffi .
           python -I -m cexample.main
         
