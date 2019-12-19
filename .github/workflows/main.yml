@@ -27,9 +27,12 @@ jobs:
         with:
           command: test
       - run: |
-          pip install cffi .
+          pip install cffi maturin .
           python -I -m cexample.main
+      - run: |
+          maturin build --release
       - uses: actions/upload-artifact@v1
+        name: upload-wheel
         with:
           name: wheel-${{ matrix.platform }}
           path: target/wheels/
