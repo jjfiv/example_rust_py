@@ -33,9 +33,10 @@ def _handle_c_result(c_result):
     return success
 
 def operate(op: str, x: int, y: int) -> int:
-    if len(op) != 1:
+    op_bytes = op.encode('utf-8')
+    if len(op_bytes) != 1:
         raise ValueError("{} should be a character.".format(op))
-    int_ptr = ffi.cast("int32_t*", _handle_c_result(lib.c_operate(op, x, y)))
+    int_ptr = ffi.cast("int32_t*", _handle_c_result(lib.c_operate(op_bytes, x, y)))
     num = int_ptr[0]
     lib.free_i32(int_ptr)
     return num
