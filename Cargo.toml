@@ -1,0 +1,13 @@
+[package]
+name = "example_rust_py"
+version = "0.1.0"
+authors = ["John Foley <jjfoley@smith.edu>"]
+edition = "2018"
+publish = false
+
+[lib]
+name = "cexample"
+crate-type = ["cdylib"]
+
+[dependencies]
+libc = "0.2"
