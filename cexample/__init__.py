@@ -31,8 +31,12 @@ def _handle_c_result(c_result):
         raise Exception(error)
     return success
 
-def operate(op: char, x: int, y: int) -> int:
-    return _handle_c_result(lib.c_operate(op, x, y))
+def operate(op: str, x: int, y: int) -> int:
+    if len(op) != 1:
+        raise ValueError("{} should be a character.".format(op))
+    int_ptr = ffi.cast("int32_t*", _handle_c_result(lib.c_operate(op, x, y)))
+    num = int_ptr[0]
+    lib.free_i32(int_ptr)
+    return num
 
-if __name__ == '__main__':
-    assert operate('-', 7, 3) == 4
+

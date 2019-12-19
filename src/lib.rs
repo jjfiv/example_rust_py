@@ -50,6 +50,12 @@ pub extern "C" fn free_c_result(originally_from_rust: *mut CResult) {
     let _will_drop: Box<CResult> = unsafe { Box::from_raw(originally_from_rust) };
 }
 
+/// Free a boxed i32!
+#[no_mangle]
+pub extern "C" fn free_i32(originally_from_rust: *mut i32) {
+    let _will_drop: Box<i32> = unsafe { Box::from_raw(originally_from_rust) };
+}
+
 #[no_mangle]
 pub extern "C" fn c_operate(op: char, x: i32, y: i32) -> *const CResult {
     result_to_c(operate(op, x, y))
