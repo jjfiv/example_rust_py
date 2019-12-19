@@ -70,11 +70,14 @@ pub extern "C" fn free_i32(originally_from_rust: *mut i32) {
 
 #[no_mangle]
 pub extern "C" fn c_operate(op: *const c_void, x: i32, y: i32) -> *const CResult {
-    result_to_c(operate(op, x, y))
+    result_to_c(try_operate(op, x, y))
 }
 
-fn operate(op: *const c_void, x: i32, y: i32) -> Result<i32, String> {
-    let op = accept_str("operator", op)?;
+fn try_operate(op: *const c_void, x: i32, y: i32) -> Result<i32, String> {
+    operate(accept_str("operator", op)?, x, y)
+}
+
+fn operate(op: &str, x: i32, y: i32) -> Result<i32, String> {
     Ok(match op {
         "+" => x + y,
         "-" => x - y,
