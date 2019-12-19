@@ -1,5 +1,4 @@
 import sys
-print(sys.path)
 from .cexample import lib, ffi
 
 def _handle_rust_str(result) -> str:

@@ -30,6 +30,5 @@ jobs:
           command: test
       - run: |
           pip install .
-          env
-          python -m cexample
+          python -I -m cexample.main
         
