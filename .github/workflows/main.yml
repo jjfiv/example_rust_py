@@ -30,7 +30,7 @@ jobs:
           pip install cffi .
           python -I -m cexample.main
       - uses: actions/upload-artifact@v1
-          with:
-            name: wheel-${{ matrix.platform }}
-            path: target/wheels/
+        with:
+          name: wheel-${{ matrix.platform }}
+          path: target/wheels/
         
