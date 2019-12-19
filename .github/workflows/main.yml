@@ -21,9 +21,7 @@ jobs:
       - name: Setup Python environment
         uses: actions/setup-python@v1.1.1
         with:
-          # Version range or exact version of a Python version to use, using semvers version range syntax.
-          python-version: 3.5 # optional, default is 3.x
-          # The target architecture (x86, x64) of the Python interpreter.
+          python-version: 3.5
       - name: rust-cargo
         uses: actions-rs/cargo@v1.0.1
         with:
@@ -31,4 +29,8 @@ jobs:
       - run: |
           pip install cffi .
           python -I -m cexample.main
+      - uses: actions/upload-artifact@v1
+          with:
+            name: wheel-${{ matrix.platform }}
+            path: target/wheels/
         
