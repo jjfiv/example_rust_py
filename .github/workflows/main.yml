@@ -1,0 +1,17 @@
+name: CI
+
+on: [push]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: checkout
+        uses: actions/checkout@v1
+      - name: rust-cargo
+        uses: actions-rs/cargo@v1.0.1
+        with:
+          command: test
+        
