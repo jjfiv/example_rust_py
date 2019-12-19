@@ -1,5 +1,6 @@
 use libc::{c_char, c_void};
 use std::ffi::CString;
+use std::ffi::CStr;
 use std::ptr;
 use std::fmt;
 
@@ -16,6 +17,17 @@ impl Default for CResult {
             success: ptr::null(),
         }
     }
+}
+
+/// Accept a string parameter!
+fn accept_str(name: &str, input: *const c_void) -> Result<&str, String> {
+    if input.is_null() {
+        Err(format!("NULL pointer: {}", name))?;
+    }
+    let input: &CStr = unsafe { CStr::from_ptr(input as *const c_char) };
+    Ok(input
+        .to_str()
+        .map_err(|_| format!("Could not parse {} pointer as UTF-8 string!", name))?)
 }
 
 /// Internal helper: convert string reference to pointer to be passed to Python/C. Heap allocation.
@@ -57,18 +69,19 @@ pub extern "C" fn free_i32(originally_from_rust: *mut i32) {
 }
 
 #[no_mangle]
-pub extern "C" fn c_operate(op: char, x: i32, y: i32) -> *const CResult {
+pub extern "C" fn c_operate(op: *const c_void, x: i32, y: i32) -> *const CResult {
     result_to_c(operate(op, x, y))
 }
 
-fn operate(op: char, x: i32, y: i32) -> Result<i32, String> {
+fn operate(op: *const c_void, x: i32, y: i32) -> Result<i32, String> {
+    let op = accept_str("operator", op)?;
     Ok(match op {
-        '+' => x + y,
-        '-' => x - y,
-        '*' => x * y,
-        '/' => x / y,
-        '%' => x % y,
-        '^' => x ^ y,
+        "+" => x + y,
+        "-" => x - y,
+        "*" => x * y,
+        "/" => x / y,
+        "%" => x % y,
+        "^" => x ^ y,
         _ => Err(format!("Bad Operator: '{}'", op))?
     })
 }
@@ -80,6 +93,6 @@ mod tests {
 
     #[test]
     fn it_works() {
-        assert_eq!(operate('+', 2, 2).unwrap(), 4);
+        assert_eq!(operate("+", 2, 2).unwrap(), 4);
     }
 }
