@@ -32,11 +32,14 @@ jobs:
           python -I -m cexample.main
       - name: py-install
         run: |
-          maturin build --release
-          pip install target/wheels/cexample*.whl
+          maturin build --release      
       - uses: actions/upload-artifact@v1
         name: upload-wheel
         with:
           name: wheel-${{ matrix.platform }}
           path: target/wheels/
+      - name: pip-install-wheel
+          pip debug --verbose
+          pip install target/wheels/example_rust_py*.whl
+
         
