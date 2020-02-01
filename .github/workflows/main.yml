@@ -28,8 +28,8 @@ jobs:
           command: test
       - name: py-deps
         run: |
-        pip install --upgrade pip
-        pip install cffi maturin .
+          pip install --upgrade pip
+          pip install cffi maturin .
       - name: py-install
         run: |
           maturin build --release      
