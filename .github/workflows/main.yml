@@ -26,11 +26,14 @@ jobs:
         uses: actions-rs/cargo@v1.0.1
         with:
           command: test
-      - run: |
+      - name: py-deps
+        run: |
           pip install cffi maturin .
           python -I -m cexample.main
-      - run: |
+      - name: py-install
+        run: |
           maturin build --release
+          pip install target/wheels/cexample*.whl
       - uses: actions/upload-artifact@v1
         name: upload-wheel
         with:
