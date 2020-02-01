@@ -1,8 +1,8 @@
 use libc::{c_char, c_void};
-use std::ffi::CString;
 use std::ffi::CStr;
-use std::ptr;
+use std::ffi::CString;
 use std::fmt;
+use std::ptr;
 
 #[repr(C)]
 pub struct CResult {
@@ -70,11 +70,7 @@ pub extern "C" fn free_i32(originally_from_rust: *mut i32) {
 
 #[no_mangle]
 pub extern "C" fn c_operate(op: *const c_void, x: i32, y: i32) -> *const CResult {
-    result_to_c(try_operate(op, x, y))
-}
-
-fn try_operate(op: *const c_void, x: i32, y: i32) -> Result<i32, String> {
-    operate(accept_str("operator", op)?, x, y)
+    result_to_c((|| operate(accept_str("operator", op)?, x, y))())
 }
 
 fn operate(op: &str, x: i32, y: i32) -> Result<i32, String> {
@@ -85,10 +81,9 @@ fn operate(op: &str, x: i32, y: i32) -> Result<i32, String> {
         "/" => x / y,
         "%" => x % y,
         "^" => x ^ y,
-        _ => Err(format!("Bad Operator: '{}'", op))?
+        _ => Err(format!("Bad Operator: '{}'", op))?,
     })
 }
-
 
 #[cfg(test)]
 mod tests {
