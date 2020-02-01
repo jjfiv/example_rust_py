@@ -6,7 +6,7 @@ jobs:
   build:
     strategy:
       matrix:
-        platform: [ubuntu-latest, windows-latest, macOS-latest]
+        platform: [ubuntu-latest, macOS-latest]
     runs-on: ${{ matrix.platform }}
 
     steps:
@@ -39,7 +39,7 @@ jobs:
       - name: pip-install-wheel
         run: |
           pip debug --verbose
-          maturin develop --release
+          pip install target/wheels/example_rust_py*.whl
       - name: test-python
         run: python -I -m cexample.main
 
