@@ -21,7 +21,7 @@ jobs:
       - name: Setup Python environment
         uses: actions/setup-python@v1.1.1
         with:
-          python-version: 3.6
+          python-version: 3.7
       - name: rust-cargo
         uses: actions-rs/cargo@v1.0.1
         with:

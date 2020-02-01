@@ -7,5 +7,9 @@ bindings = "cffi"
 manylinux = "off"
 
 [package.metadata.maturin]
-requires-python = ">=3.5"
-classifier = ["Programming Language :: Python"]
+requires-python = ">=3.6"
+classifier = [
+  "Programming Language :: Python",
+  "Programming Language :: Python :: 3.6"
+  "Programming Language :: Python :: 3 :: Only"
+  ]
