@@ -27,9 +27,7 @@ jobs:
         with:
           command: test
       - name: py-deps
-        run: |
-          pip install cffi maturin .
-          python -I -m cexample.main
+        run: pip install cffi maturin .
       - name: py-install
         run: |
           maturin build --release      
@@ -41,6 +39,8 @@ jobs:
       - name: pip-install-wheel
         run: |
           pip debug --verbose
-          pip install target/wheels/example_rust_py*.whl
+          maturin develop --release
+      - name: test-python
+        run: python -I -m cexample.main
 
         
