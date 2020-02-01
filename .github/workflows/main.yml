@@ -39,6 +39,7 @@ jobs:
           name: wheel-${{ matrix.platform }}
           path: target/wheels/
       - name: pip-install-wheel
+        run: |
           pip debug --verbose
           pip install target/wheels/example_rust_py*.whl
 
