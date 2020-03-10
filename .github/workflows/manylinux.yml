@@ -13,11 +13,7 @@ jobs:
     steps:
       - name: checkout
         uses: actions/checkout@v1
-      - name: py-deps
-        run: |
-          pip install --upgrade pip
-          pip install cffi maturin .
-      - name: py-install
+      - name: maturin-build
         run: |
           maturin build --release      
       - uses: actions/upload-artifact@v1
