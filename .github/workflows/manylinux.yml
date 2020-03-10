@@ -7,7 +7,8 @@ jobs:
     runs-on: ubuntu-latest
     container: 
       image: konstin2/maturin:master
-      volumes: .:/io
+      volumes: 
+        - .:/io
 
     steps:
       - name: checkout
