@@ -5,7 +5,9 @@ on: [push]
 jobs:
   build:
     runs-on: ubuntu-latest
-    container: konstin2/maturin:master
+    container: 
+      image: konstin2/maturin:master
+      volumes: .:/io
 
     steps:
       - name: checkout
