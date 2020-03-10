@@ -1,4 +1,4 @@
-name: CI
+name: manylinux
 
 on: [push]
 
@@ -25,20 +25,16 @@ jobs:
         with:
           command: test
       - name: py-deps
-        run: pip install cffi maturin .
+        run: |
+          pip install --upgrade pip
+          pip install cffi maturin .
       - name: py-install
         run: |
           maturin build --release      
       - uses: actions/upload-artifact@v1
         name: upload-wheel
         with:
-          name: wheel-${{ matrix.platform }}
+          name: wheel-manylinux
           path: target/wheels/
-      - name: pip-install-wheel
-        run: |
-          pip debug --verbose
-          pip install target/wheels/example_rust_py*.whl
-      - name: test-python
-        run: python -I -m cexample.main
 
         
