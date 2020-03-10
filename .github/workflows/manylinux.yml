@@ -15,11 +15,7 @@ jobs:
         uses: actions/checkout@v1
       - name: maturin-build
         run: |
-          hostname
-          uname -a
-          cargo --version
-          maturin --version
-          maturin build --release      
+          /usr/bin/docker run -it -v $(pwd):/io konstin2/maturin:master build --release
       - uses: actions/upload-artifact@v1
         name: upload-wheel
         with:
